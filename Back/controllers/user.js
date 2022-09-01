@@ -23,8 +23,6 @@ async function signup(req, res){
 }
   
 
-
-
 // Fonction de hashage BCRYPT
 async function hashPassword(req){
     const password = req.body.password
