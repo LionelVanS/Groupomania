@@ -23,10 +23,7 @@ async function signup(req, res){
 }
   
 
-// Fonction login
-async function login(req, res){
-    const 
-}
+
 
 // Fonction de hashage BCRYPT
 async function hashPassword(req){
@@ -36,4 +33,4 @@ async function hashPassword(req){
     return hashedPassword    
 }
 
-module.exports = { signup, login }
+module.exports = { signup }
