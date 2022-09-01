@@ -8,12 +8,11 @@ const User = require('../models/user')
 
 // Signup
 async function signup(req, res){
-    const hashedEmail = await hashEmail(req)
-    const hashedPassword = await hashPassword(req)
+    const userData = await hashUserData(req)
 
     const user = new User({
-        email: hashedEmail,
-        password: hashedPassword
+        email: userData.email,
+        password: userData.password
     })
 
     user.save()
@@ -32,17 +31,16 @@ module.exports = { signup, login }
 
         // FONCTIONS //
 
-// Hachage BCRYPT
-async function hashPassword(req){
-    const password = req.body.password
+// Hachage Email et Password Utilisateur à l'inscription
+async function hashUserData(req){
     const saltRounds = Number(process.env.BC_SALTROUNDS)
-    const hashedPassword = await bcrypt.hash(password, saltRounds)
-    return hashedPassword
-}
+    const hashedEmail = await bcrypt.hash(req.body.email, saltRounds)
+    const hashedPassword = await bcrypt.hash(req.body.password, saltRounds)
+    
+    const userData = {
+        email: hashedEmail,
+        password: hashedPassword
+    }
 
-async function hashEmail(req){
-    const email = req.body.email
-    const saltRounds = Number(process.env.BC_SALTROUNDS)
-    const hashedEmail = await bcrypt.hash(email, saltRounds)
-    return hashedEmail
+    return userData
 }
