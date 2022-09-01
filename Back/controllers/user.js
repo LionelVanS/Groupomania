@@ -3,32 +3,46 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
 
-
 // Appel du modèle utilisateur
 const User = require('../models/user')
 
-// Fonction signup
+// Signup
 async function signup(req, res){
-    
-    const hash = await hashPassword(req)
+    const hashedEmail = await hashEmail(req)
+    const hashedPassword = await hashPassword(req)
 
     const user = new User({
-        email: req.body.email,
-        password: hash
+        email: hashedEmail,
+        password: hashedPassword
     })
 
     user.save()
         .then(res.status(200).json({ message: 'Utilisateur créé !' }))
         .catch(error => res.status(500).json({ error }))
 }
-  
 
-// Fonction de hashage BCRYPT
+
+// Login
+async function login(req, res){
+
+}
+
+module.exports = { signup, login }
+
+
+        // FONCTIONS //
+
+// Hachage BCRYPT
 async function hashPassword(req){
     const password = req.body.password
     const saltRounds = Number(process.env.BC_SALTROUNDS)
     const hashedPassword = await bcrypt.hash(password, saltRounds)
-    return hashedPassword    
+    return hashedPassword
 }
 
-module.exports = { signup }
+async function hashEmail(req){
+    const email = req.body.email
+    const saltRounds = Number(process.env.BC_SALTROUNDS)
+    const hashedEmail = await bcrypt.hash(email, saltRounds)
+    return hashedEmail
+}
