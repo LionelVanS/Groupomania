@@ -7,5 +7,6 @@ const userCtrl = require('../controllers/user')
 
 // Création des routes Utilisateurs
 router.post('/signup', userCtrl.signup)
+router.post('/login', userCtrl.login)
 
 module.exports = router
