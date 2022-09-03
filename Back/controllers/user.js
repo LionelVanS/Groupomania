@@ -1,26 +1,32 @@
 // Appel des dépendances
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const user = require('../models/user')
 require('dotenv').config()
+
+// Appel des fonctions
+const { checkEmailFormat, checkPassword } = require('../middleware/checkNewUserData')
 
 // Appel du modèle utilisateur
 const User = require('../models/user')
 
 // Signup
 async function signup(req, res){
-    const hash = await bcrypt.hash(req.body.password, 10)
+    const isPasswordIsValid = checkPassword(req)
+    const isEmailIsValid = checkEmailFormat(req)
 
-    const user = new User({
-        email: req.body.email,
-        password: hash
-    })
+    if(isEmailIsValid && isPasswordIsValid){
+        const hash = await bcrypt.hash(req.body.password, 10)
+        const user = new User({
+            email: req.body.email,
+            password: hash
+        })
 
-    user.save()
-        .then(res.status(200).json({ message: 'Utilisateur créé !' }))
-        .catch(error => res.status(500).json({ error }))
+        await user.save()
+        res.status(200).json({ message: 'Utilisateur créé' })
+    } else {
+        res.status(400).json({ message: 'Impossible d\'enregistrer l\'utilisateur' })
+    }
 }
-
 
 // Login
 async function login(req, res){
@@ -31,9 +37,11 @@ async function login(req, res){
         if(isValid){
             jwt.sign({ userId: user._id }, process.env.JWT_SECRETKEY, { expiresIn: '24h' })    
             res.status(200).json({ message: 'Utilisateur connecté' })
-        } 
+        } else {
+            res.status(401).json({ message: 'Utilisateur non connecté' })
+        }
     } catch {
-        res.status(401).json({ message: 'Vous ne pouvez pas vous connecter'})
+        res.status(401).json({ message: 'Utilisateur non connecté'})
     }
 }
     
