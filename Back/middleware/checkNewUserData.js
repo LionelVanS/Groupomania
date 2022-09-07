@@ -2,9 +2,11 @@
 const passwordValidator = require('password-validator')
 const emailValidator = require('validator')
 
+// Validation du format de l'email
 function checkEmailFormat(req){
     return emailValidator.isEmail(req.body.email)
 }
+
 // Vérification de la force du mot de passe
 function checkPassword(req){
     const password = req.body.password
