@@ -1,5 +1,4 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
 
 const Login = () => (
     <aside className="login">
@@ -10,13 +9,6 @@ const Login = () => (
             <input id="user-password" classname="user-input" type="text" required />
             <button>Valider</button>
         </div>
-        <div className="dot"></div>
-        
-        <NavLink to="/signup">
-            <li>
-                S'inscrire
-            </li>
-        </NavLink>
     </aside>
 )
 
