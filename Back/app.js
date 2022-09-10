@@ -5,8 +5,10 @@ const mongoose = require('mongoose')
 const path = require('path')
 const helmet = require('helmet')
 
+
 // Appel des différentes routes
 const userRoutes = require('./routes/user')
+const userPost = require('./routes/post')
 
 // Création de l'application Express
 const app = express()
@@ -22,7 +24,7 @@ mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD
 { useNewUrlParser: true,
   useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
-  .catch(() => console.log('Connexion à MongoDB échouée !'));
+  .catch(() => console.log('Connexion à MongoDB échouée !'))
 
 // Modification des en-têtes pour autoriser le fonctionnement de l'application
 // sur plusieurs port (port 3000 pour le backend et port 4200 pour le frontend)
@@ -39,5 +41,6 @@ app.use('/images', express.static(path.join(__dirname, 'images')))
 
 // Routes
 app.use('/', userRoutes)
+app.use('/', userPost)
 
 module.exports = app
