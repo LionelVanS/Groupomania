@@ -1,8 +1,10 @@
 import React from 'react';
+import Header from '../../components/Header/Header';
 
-const SignupForm = () => {
+const Signup = () => {
     return (
         <>
+            <Header />
             <main classname="signup">
                 <h1 className="signup__title">Veuillez remplir le formulaire suivant pour s'inscrire</h1>
                 <div className="signup__form">
@@ -15,6 +17,6 @@ const SignupForm = () => {
             </main>
         </>
     );
-};
+}
 
-export default SignupForm;
+export default Signup;

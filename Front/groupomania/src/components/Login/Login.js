@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 const Login = () => (
-    <main className="login">
+    <aside className="login">
         <div className="login__form">
             <label htmlFor="user-email">Adresse mail:</label>
             <input id="user-email" classname="user-input" type="text" required />
@@ -17,7 +17,7 @@ const Login = () => (
                 S'inscrire
             </li>
         </NavLink>
-    </main>
+    </aside>
 )
 
 export default Login; 
