@@ -1,17 +1,24 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Home from './pages/Home.js'
-import Signup from './pages/Signup.js'
-import Error404 from './pages/Error404.js';
+import Home from './pages/Home/Home.js'
+import Signup from './pages/Signup/Signup'
+import Error404 from './pages/error404/Error404';
+import CreatePost from './pages/createPost/createPost'
+import Header from './components/Header/Header';
+// import Footer from './components/Footer/Footer';
+
 
 const App = () => {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path = '/' element = {<Home />} />
-        <Route path = '/signup' element = {<Signup />} />
-        <Route path = '/*' element = {<Error404 />} />
-      </Routes>
+    <Header />
+    <Routes>
+      <Route exact path='/' element={<Home />} />
+      <Route exact path='/signup' element={<Signup />} />
+      <Route exact path='/createPost' element={<CreatePost />} />
+      <Route exact path='/*' element={<Error404 />} />
+    </Routes>
+    {/* <Footer /> */}
     </BrowserRouter>
   );
 };
