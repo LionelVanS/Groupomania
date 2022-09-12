@@ -6,17 +6,19 @@ const Header = () => {
         <header>
             <img src="./images/icon-left-font-monochrome-white.svg" alt="Logo Groupomania" />
 
-            <ul>
-                <NavLink to="/">
-                    Accueil
-                </NavLink>
-                <NavLink to="/signup">
-                    S'inscrire
-                </NavLink> 
-                <NavLink to="/createPost">
-                    Nouveau Post
-                </NavLink> 
-            </ul>
+            <nav>
+                <ul>
+                    <NavLink to="/">
+                        Accueil
+                    </NavLink>
+                    <NavLink to="/signup">
+                        S'inscrire
+                    </NavLink> 
+                    <NavLink to="/createPost">
+                        Nouveau Post
+                    </NavLink> 
+                </ul>
+            </nav>
         </header>
     );
 };
