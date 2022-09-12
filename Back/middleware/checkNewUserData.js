@@ -13,7 +13,7 @@ function checkPassword(req){
     const passwordSchema = new passwordValidator()
 
     passwordSchema
-        .is().min(8)                                    // Il doit contenir au minimum 8 caractères
+        .is().min(9)                                    // Il doit contenir au minimum 9 caractères
         .is().max(20)                                   // Il doit contenir au maximum 20 caractères
         .has().uppercase()                              // Il doit contenir des majuscules
         .has().lowercase()                              // Il doit contenir des minuscules
