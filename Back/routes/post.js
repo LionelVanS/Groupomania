@@ -12,16 +12,15 @@ const multer = require('../middleware/multer')
 const postCtrl = require('../controllers/post')
 
 // Appel du controler des likes
-const likeCtrl = require('../controllers/like')
+// const likeCtrl = require('../controllers/like')
 
-// Création des routes posts                          
-router.post('/createPost', auth, multer, postCtrl.createPost)            
-router.get('/getAllPosts', auth, postCtrl.getAllPosts)                    
-router.get('/getOnePost/:id', auth, postCtrl.getOnePost)
-router.put('/updatePost/:id', auth, multer, postCtrl.updatePost)           
-router.delete('/deletePost/:id', auth, postCtrl.deletePost)             
+// Création des routes posts
+router.post('/createPost', auth, multer, postCtrl.createPost)
+router.get('/getAllPosts', auth, postCtrl.getAllPosts)
+router.put('/updatePost/:id', auth, multer, postCtrl.updatePost)
+router.delete('/deletePost/:id', auth, postCtrl.deletePost)
 
 // Création des routes like
-router.put('/:id/like', likeCtrl.updateLike)
+router.put('/updateLike/:id', auth, postCtrl.updateLike)
 
 module.exports = router
