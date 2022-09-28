@@ -4,10 +4,14 @@ const uniqueValidator = require('mongoose-unique-validator')
 
 // Déclarations du modèle Utilisateur
 const userSchema = new mongoose.Schema({
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-    name: { type: String, unique: true },
-    profilPic: { type: String }
+  // Données de connexion
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+
+  // Profil à compléter
+  name: { type: String },
+  surname: { type: String },
+  picture: { type: String },
 })
 
 // Vérification de l'unicité de l'adresse mail
