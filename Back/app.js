@@ -4,6 +4,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const path = require('path')
 const helmet = require('helmet')
+const cors = require('cors')
 
 // Appel des différentes routes
 const userRoutes = require('./routes/user')
@@ -17,6 +18,9 @@ app.use(express.json())
 
 // Ajout du middleware HELMET
 app.use(helmet())
+
+// Ajout du middleware CORS
+app.use(cors())
 
 // Connexion à la DATABASE MongoDB Atlas
 mongoose
