@@ -1,89 +1,96 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import axios from 'axios'
-import ErrorConnexion from '../ErrorConnexion/ErrorConnexion'
 import formData from 'form-data'
+import { useNavigate } from 'react-router-dom'
 
 const CreatePost = () => {
-  // UseEffect pour savoir si un utilisateur est connecté
-  const [userIsLog, setUserIsLog] = useState(false)
+   // Usestates
+   const [text, setText] = useState('')
+   const [picture, setPicture] = useState()
 
-  useEffect(() => {
-    const user = sessionStorage.getItem('user')
-    if (user) {
-      setUserIsLog(true)
-    } else {
-      setUserIsLog(false)
-    }
-  }, [])
+   // UseNavigate
+   const navigate = useNavigate()
 
-  async function handleData(e) {
-    e.preventDefault()
+   // Récupération des infos du post
+   function handleData(e) {
+      e.preventDefault()
 
-    const text = document.querySelector('.add-post-form__text').value
-    const picture = document.querySelector('.add-post-form__picture').files[0]
+      // Récupération des données du profil utilisateur
+      let user = sessionStorage.getItem('user')
+      user = user && JSON.parse(user)
 
-    console.log(picture.name)
+      // Création du post
+      const form = new formData()
+      form.append('userName', user.name)
+      form.append('userSurname', user.surname)
+      form.append('userPicture', user.picture)
+      form.append('text', text)
+      form.append('file', picture[0])
+      form.append('date', Date.now())
+      if (user.name) {
+         requestToAPI(user, form)
+      } else {
+         console.log('bla')
+      }
+   }
 
-    let userId = sessionStorage.getItem('user')
-    userId = userId && JSON.parse(userId)
+   // Enregistrement du post dans la BDD
+   async function requestToAPI(user, form) {
+      try {
+         await axios({
+            method: 'post',
+            url: 'http://localhost:3001/createPost',
+            headers: {
+               Authorization: user.token,
+            },
+            data: form,
+         })
+         navigate('/home')
+      } catch (err) {
+         console.log(err)
+      }
+   }
 
-    const form = new formData()
-    form.append('text', text)
-    form.append('file', picture)
-
-    try {
-      await axios({
-        method: 'post',
-        url: 'http://localhost:3001/createPost',
-        headers: {
-          Authorization: userId.token,
-        },
-        data: form,
-      })
-    } catch (err) {
-      console.log(err)
-    }
-  }
-
-  // RENDER
-  return (
-    <>
-      {userIsLog ? (
-        <main id="main-create-post">
-          <h1>Créez un post</h1>
-          <form id="form" className="add-post-form" method="POST">
-            <label>
-              <textarea
-                type="text"
-                className="add-post-form__text"
-                placeholder="Tapez votre message ici"
-                required
-              />
-            </label>
-            <label>
-              <input
-                type="file"
-                name="file"
-                accept=".jpg, .jpeg, .png"
-                id="file"
-                className="add-post-form__picture"
-                required
-              />
-            </label>
-            <button
-              type="submit"
-              className="btn"
-              onClick={(e) => handleData(e)}
-            >
-              Poster
-            </button>
-          </form>
-        </main>
-      ) : (
-        <ErrorConnexion />
-      )}
-    </>
-  )
+   // RENDER
+   return (
+      <>
+         <main id="main-create-post">
+            <h1>Créez un post</h1>
+            <form id="form" className="add-post-form" method="POST">
+               <label>
+                  <textarea
+                     type="text"
+                     className="add-post-form__text"
+                     rows="10"
+                     cols="100"
+                     placeholder="Tapez votre message ici"
+                     value={text}
+                     onChange={(e) => setText(e.target.value)}
+                     required
+                  />
+               </label>
+               <label>
+                  <input
+                     type="file"
+                     name="file"
+                     accept=".jpg, .jpeg, .png"
+                     id="file"
+                     className="add-post-form__picture"
+                     onChange={(e) => setPicture(e.target.files)}
+                     required
+                  />
+               </label>
+               <button
+                  type="submit"
+                  className="btn"
+                  onClick={(e) => handleData(e)}
+               >
+                  Poster
+               </button>
+            </form>
+         </main>
+      </>
+   )
 }
 
 export default CreatePost
