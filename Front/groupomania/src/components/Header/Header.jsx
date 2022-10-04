@@ -1,26 +1,51 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import React from 'react'
+import { NavLink } from 'react-router-dom'
 
-const Header = () => {
-    return (
-        <header>
-            <img src="./images/icon-left-font-monochrome-white.svg" alt="Logo Groupomania" />
+// MUI
+import { Button } from '@mui/material'
 
+const Header = ({ userIsLog, setUserIsLog }) => {
+   // Déconnexion de l'utilisateur
+   const disconnectUser = () => {
+      sessionStorage.clear()
+      setUserIsLog(false)
+   }
+
+   // RENDER
+   return (
+      <header>
+         <img src="./images/logo.png" alt="Logo Groupomania" />
+
+         {userIsLog ? (
             <nav>
-                <ul>
-                    <NavLink to="/">
-                        Accueil
-                    </NavLink>
-                    <NavLink to="/signup">
-                        S'inscrire
-                    </NavLink> 
-                    <NavLink to="/createPost">
-                        Nouveau Post
-                    </NavLink> 
-                </ul>
+               <ul>
+                  <NavLink to="/home">
+                     <Button>Accueil</Button>
+                  </NavLink>
+                  <NavLink to="/createPost">
+                     <Button>Nouveau Post</Button>
+                  </NavLink>
+                  <NavLink to="/updateuser">
+                     <Button>Modifier votre Profil</Button>
+                  </NavLink>
+               </ul>
             </nav>
-        </header>
-    );
-};
+         ) : (
+            ' '
+         )}
+         <div className="disconnect">
+            <NavLink
+               to="/"
+               className={
+                  userIsLog ? 'disconnect__btn' : 'disconnect__btn display-none'
+               }
+               onClick={() => disconnectUser()}
+            >
+               Déconnexion
+            </NavLink>
+         </div>
+      </header>
+   )
+}
 
-export default Header;
+export default Header
