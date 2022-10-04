@@ -1,6 +1,5 @@
 const Post = require('../models/post')
 const fs = require('fs')
-const post = require('../models/post')
 
 // Création d'un post
 function createPost(req, res) {
@@ -35,10 +34,11 @@ function getAllPosts(req, res) {
 
 // Modification d'un post
 function updatePost(req, res) {
+  console.log(req.file)
   const modifiedPost = req.file
     ? {
-        ...JSON.parse(req.body.post),
-        imageUrl: `${req.protocol}://${req.get('host')}/images/${
+        ...req.body,
+        picture: `${req.protocol}://${req.get('host')}/images/${
           req.file.filename
         }`,
       }
@@ -47,10 +47,7 @@ function updatePost(req, res) {
   Post.findOne({ _id: req.params.id })
     .then(() => {
       if ((modifiedPost.userId = req.auth.userId)) {
-        Post.updateOne(
-          { _id: req.params.id },
-          { ...req.body, _id: req.params.id }
-        )
+        Post.updateOne({ _id: req.params.id }, { ...modifiedPost })
           .then(() => res.status(200).json({ message: 'Objet modifié!' }))
           .catch(() =>
             res.status(500).json({ message: 'Il y a eu une erreur' })
