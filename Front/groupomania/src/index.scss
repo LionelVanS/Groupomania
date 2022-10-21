@@ -1,0 +1,45 @@
+// VARIABLES
+@import './styles/utils/variables';
+
+// MIXINS
+@import './styles/utils/mixins';
+
+// REGLES COMMUNES
+@import './styles/base/common-rules.scss';
+
+// PAGES
+
+// ACCUEIL
+@import './pages/Home/home.scss';
+
+// CREER UN NOUVEAU POST
+@import './pages/CreatePost/create-post';
+
+// MODIFIER SON PROFIL
+@import './pages/UpdateUser/update-user';
+
+// PAGES D'ERREURS
+@import './pages/ErrorPages/error-pages';
+
+// COMPOSANTS
+
+// Header
+@import './components/Header/header';
+
+// Informations de l'utilisateur connecté
+@import './components/UserData/user-data';
+
+// Inputs d'utilisateurs pour la connexion
+@import './components/Login/login';
+
+// Inputs d'utilisateurs pour l'inscription
+@import './components/Signup/signup';
+
+// Barre de navigation
+@import './components/NavBar/nav-bar';
+
+// Style d'un post
+@import './components/SinglePost/single-post.scss';
+
+// Informations du propriétaire d'un post
+@import './components/PostUser/post-user';

@@ -1,0 +1,19 @@
+// MOBILE VERSION
+
+// VARIABLES
+@import './styles/utils/variables';
+
+// MIXINS
+@import './styles/utils/mixins';
+
+// REGLES COMMUNES
+@import './styles/base/common-rules.scss';
+
+// Header
+@import './components/Header/MobileHeader/mobile-header';
+
+// Barre de navigation
+@import './components/NavBar/MobileNavBar/mobile-nav-bar';
+
+// Style d'un post
+@import './components/SinglePost/MobileSinglePost/mobile-single-post';

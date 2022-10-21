@@ -1,0 +1,22 @@
+.user-container {
+   display: flex;
+   justify-content: space-between;
+   margin-bottom: 0.5rem;
+
+   &__user {
+      display: flex;
+      padding: 1rem 0;
+   }
+
+   &__id-pic {
+      width: 4rem;
+      height: 4rem;
+      border-radius: 50%;
+      object-fit: cover;
+   }
+   &__surname,
+   &__name {
+      font-size: $size-large;
+      margin: 0.2rem;
+   }
+}
