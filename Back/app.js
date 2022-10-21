@@ -29,7 +29,7 @@ mongoose
     { useNewUrlParser: true, useUnifiedTopology: true }
   )
   .then(() => console.log('Connexion à MongoDB réussie !'))
-  .catch(() => console.log('Connexion à MongoDB échouée !'))
+  .catch((err) => console.log('Connexion à MongoDB échouée ! >>>', err))
 
 // Modification des en-têtes pour autoriser le fonctionnement de l'application
 // sur plusieurs port (port 3001 pour le backend et port 3000 pour le frontend)
