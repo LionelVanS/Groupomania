@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
   // Données de connexion
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
+  admin: { type: Boolean, default: false },
 
   // Profil à compléter
   name: { type: String },
