@@ -1,0 +1,27 @@
+// Modifie le style des cadres principaux de chaque page
+@mixin frame($padding: 1rem, $height: 600px) {
+   width: 50%;
+   height: $height;
+   display: flex;
+   justify-content: center;
+   padding: $padding;
+   background: white;
+   border: 0.1rem solid $color-secondary;
+   border-radius: 10px;
+}
+
+// Modifie le style des cadres principaux de chaque page VERSION MOBILE
+@mixin frame-mobile($padding: 1rem) {
+   width: 90%;
+   display: flex;
+   justify-content: center;
+   padding: $padding;
+}
+
+// Pour centrer en milieu de page
+@mixin center {
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+}
