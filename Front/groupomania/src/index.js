@@ -4,8 +4,4 @@ import App from './App'
 
 // RENDER
 const root = ReactDOM.createRoot(document.getElementById('body'))
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-)
+root.render(<App />)
