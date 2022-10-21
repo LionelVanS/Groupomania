@@ -1,4 +1,5 @@
 const Post = require('../models/post')
+const User = require('../models/user')
 const fs = require('fs')
 
 // Création d'un post
@@ -15,38 +16,31 @@ function createPost(req, res) {
 
   post
     .save()
-    .then(() => {
-      res.status(201).json({ message: 'Post créé' })
-    })
-    .catch((error) => {
-      res.status(400).json({ error })
-    })
+    .then(() => res.status(201).json({ message: 'Post créé' }))
+    .catch(() => res.status(400).json({ message: 'Création impossible' }))
 }
 
 // Récupération des posts
 function getAllPosts(req, res) {
   Post.find()
-    .then((posts) => {
-      res.status(200).json(posts)
+    .then((post) => {
+      res.status(200).json({ post })
     })
-    .catch((error) => res.status(400).json({ message: 'Aucun post' }))
+    .catch(() => {
+      res.status(400).json({ message: 'Post inexistant' })
+    })
 }
 
 // Modification d'un post
 function updatePost(req, res) {
-  console.log(req.file)
-  const modifiedPost = req.file
-    ? {
-        ...req.body,
-        picture: `${req.protocol}://${req.get('host')}/images/${
-          req.file.filename
-        }`,
-      }
-    : { ...req.body }
+  const modifiedPost = {
+    ...req.body,
+    picture: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+  }
 
   Post.findOne({ _id: req.params.id })
-    .then(() => {
-      if ((modifiedPost.userId = req.auth.userId)) {
+    .then((post) => {
+      if (post.userId === req.auth.userId || modifiedPost.admin === 'true') {
         Post.updateOne({ _id: req.params.id }, { ...modifiedPost })
           .then(() => res.status(200).json({ message: 'Objet modifié!' }))
           .catch(() =>
@@ -105,7 +99,7 @@ async function updateLike(req, res) {
       { $inc: { likes: 1 }, $push: { usersLiked: userId } }
     )
       .then(() => res.status(200).json({ message: 'Vous aimé ce post' }))
-      .catch(() => res.status(400).json({ message: "Pas possible d'aimer" }))
+      .catch(() => res.status(400).json({ message: "Impossible d'aimer" }))
   }
 }
 

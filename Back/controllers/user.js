@@ -66,7 +66,7 @@ async function login(req, res) {
 // Modification du profil
 async function updateUser(req, res) {
   try {
-    await User.findOneAndUpdate(
+    const user = await User.findOneAndUpdate(
       { _id: req.auth.userId },
       {
         ...req.body,
@@ -76,8 +76,15 @@ async function updateUser(req, res) {
         }`,
       }
     )
-
-    res.status(200).json({ message: 'Utilisateur modifié' })
+    const newUserStorage = await User.findOne({ _id: user._id })
+    const newUser = {
+      name: newUserStorage.name,
+      surname: newUserStorage.surname,
+      picture: newUserStorage.picture,
+      admin: newUserStorage.admin,
+      id: newUserStorage._id,
+    }
+    res.status(200).json(newUser)
   } catch {
     res.status(404).json({ message: "Impossible de modifier l'utilisateur" })
   }
@@ -86,19 +93,35 @@ async function updateUser(req, res) {
 // Obtenir un utilisateur
 async function getOneUser(req, res) {
   try {
-    const user = await User.findOne({ _id: req.auth.userId })
+    const userStorage = await User.findOne({ _id: req.auth.userId })
+    const user = {
+      name: userStorage.name,
+      surname: userStorage.surname,
+      picture: userStorage.picture,
+      admin: userStorage.admin,
+      id: userStorage._id,
+    }
+
     res.status(200).json({ user })
   } catch {
     res.status(404).json({ message: 'Utilisateur inconnu' })
   }
 }
 
+// Obtenir l'utilisateur propriétaire d'un post
 async function getPostUser(req, res) {
   try {
-    const postUser = await User.findOne({ _id: req.params.id })
-    res.status(200).json({ postUser })
+    const userStorage = await User.findOne({ _id: req.params.id })
+    const user = {
+      name: userStorage.name,
+      surname: userStorage.surname,
+      picture: userStorage.picture,
+      admin: userStorage.admin,
+      id: userStorage._id,
+    }
+    res.status(200).json({ user })
   } catch {
-    res.status(404).json({ message: 'Utilisateur introuvable' })
+    res.status(404).json({ message: 'Utilisateur inconnu' })
   }
 }
 
