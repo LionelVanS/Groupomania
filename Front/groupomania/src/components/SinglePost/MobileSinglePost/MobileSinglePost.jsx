@@ -2,24 +2,24 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import formData from 'form-data'
-import PostUser from '../PostUser/PostUser'
 
-// MESSAGES D'ERREURS
-import FormIsEmpty from '../ErrorMessage/FormIsEmpty'
-import ImageTooHeavy from '../ErrorMessage/ImageTooHeavy'
+// COMPOSANTS
+import PostUser from '../../PostUser/PostUser'
+import FormIsEmpty from '../../ErrorMessage/FormIsEmpty'
 
 // BOUTONS
-import LikeButton from '../Buttons/LikeButton/LikeButton'
-import EditButton from '../Buttons/EditButton/EditButton'
-import CancelButton from '../Buttons/CancelButton/CancelButton'
-import ValidateButton from '../Buttons/ValidateButton/ValidateButton'
-import DeleteButton from '../Buttons/DeleteButton/DeleteButton'
-import UploadPictureButton from '../Buttons/UploadPictureButton/UploadPictureButton'
+import LikeButton from '../../Buttons/LikeButton/LikeButton'
+import EditButton from '../../Buttons/EditButton/EditButton'
+import CancelButton from '../../Buttons/CancelButton/CancelButton'
+import ValidateButton from '../../Buttons/ValidateButton/ValidateButton'
+import DeleteButton from '../../Buttons/DeleteButton/DeleteButton'
 
 // MUI
 import { ButtonGroup, Chip } from '@mui/material'
+import ImageTooHeavy from '../../ErrorMessage/ImageTooHeavy'
+import UploadPictureButton from '../../Buttons/UploadPictureButton/UploadPictureButton'
 
-const SinglePost = ({ post, user, tablet, setErrorFromDatabase }) => {
+const SinglePost = ({ post, user, setErrorFromDatabase }) => {
    // UseStates
    const [isEditing, setIsEditing] = useState(false) // Est ce que le post est en modification
    const [formIsNotComplet, setFormIsNotComplet] = useState() // Est ce que le formulaire est rempli
@@ -50,7 +50,7 @@ const SinglePost = ({ post, user, tablet, setErrorFromDatabase }) => {
    }, [])
 
    // Vérification du poids de l'image
-   const handlePicture = e => {
+   const checkPicture = e => {
       const size = e.target.files[0].size
       if (size > 1500000) {
          setPictureIsTooHeavy(true)
@@ -70,7 +70,7 @@ const SinglePost = ({ post, user, tablet, setErrorFromDatabase }) => {
    }).format(post.date)
 
    // Modification d'un post
-   const putRequest = async () => {
+   const updatePost = async () => {
       if (
          (user.id === post.userId || isAdmin === true) &&
          editContent !== undefined &&
@@ -102,7 +102,7 @@ const SinglePost = ({ post, user, tablet, setErrorFromDatabase }) => {
    }
 
    // Suppression d'un post
-   const handleDeletePost = () => {
+   const deletePost = () => {
       const postId = post._id
       const currentUser = user.id
 
@@ -135,23 +135,22 @@ const SinglePost = ({ post, user, tablet, setErrorFromDatabase }) => {
    // RENDER
    return (
       <>
-         <article className="post">
-            <div className="post__module">
+         <article className="post-mobile">
+            <div className="post-mobile__module">
                {/* UTILISATEUR */}
                <PostUser postUsers={postUsers} />
 
-               <div className="post-content">
+               <div className="post-mobile-content">
                   {/* CONTENU DU POST */}
                   {isEditing ? (
                      <>
-                        <div className="post-content__update">
+                        <div className="post-mobile-content__update">
                            <UploadPictureButton
                               pictureIsTooHeavy={pictureIsTooHeavy}
-                              handlePicture={handlePicture}
+                              handlePicture={checkPicture}
                            />
                            <textarea
-                              aria-label="modifier le texte"
-                              className="post-content__update__textarea"
+                              className="post-mobile-content__update__textarea"
                               onChange={e => setEditContent(e.target.value)}
                               defaultValue={post.text}
                            ></textarea>
@@ -166,25 +165,28 @@ const SinglePost = ({ post, user, tablet, setErrorFromDatabase }) => {
                         <img
                            src={post.picture}
                            alt="post"
-                           className="post__post-picture"
+                           className="post-mobile__post-picture"
                         ></img>
-                        <p className="post-content__text">{post.text}</p>
-                        <p className="post-content__date">{date}</p>
+                        <p className="post-mobile-content__text">{post.text}</p>
+                        <p className="post-mobile-content__date">{date}</p>
                      </>
                   )}
                </div>
 
-               <div className="post-footer">
+               <div className="post-mobile-footer">
                   {isAdmin ? (
                      <Chip
                         color="secondary"
                         label="Droits Administrateur"
-                        className="post-footer__admin"
+                        className="post-mobile-footer__admin"
                      />
                   ) : (
                      ''
                   )}
-                  <ButtonGroup variant="text" className="post-footer__buttons">
+                  <ButtonGroup
+                     variant="text"
+                     className="post-mobile-footer__buttons"
+                  >
                      {/* BOUTON J'AIME */}
                      {isEditing ? '' : <LikeButton post={post} user={user} />}
 
@@ -194,7 +196,7 @@ const SinglePost = ({ post, user, tablet, setErrorFromDatabase }) => {
                            {isEditing ? (
                               <>
                                  {/* BOUTON VALIDER */}
-                                 <ValidateButton putRequest={putRequest} />
+                                 <ValidateButton putRequest={updatePost} />
                                  {/* BOUTON ANNULER */}
                                  <CancelButton cancelUpdate={cancelUpdate} />
                               </>
@@ -204,7 +206,7 @@ const SinglePost = ({ post, user, tablet, setErrorFromDatabase }) => {
                            )}
 
                            {/* BOUTON SUPPRIMER */}
-                           <DeleteButton handleDeletePost={handleDeletePost} />
+                           <DeleteButton handleDeletePost={deletePost} />
                         </>
                      ) : (
                         ''
