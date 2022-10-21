@@ -1,0 +1,26 @@
+.main-container {
+   margin-top: 7rem;
+
+   &__all-posts {
+      display: flex;
+      justify-content: center;
+   }
+
+   & h1 {
+      text-align: center;
+   }
+   &__body {
+      display: flex;
+   }
+}
+
+// RESPONSIVE
+
+.main-container-mobile {
+   margin-top: 0;
+}
+
+// VERSION MOBILE ET TABLETTE
+.main-mobile-container {
+   // margin-top: 2rem;
+}

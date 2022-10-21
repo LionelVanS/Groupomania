@@ -1,17 +1,37 @@
-import React from 'react'
+import React, { useState } from 'react'
+
+// Composant
 import Login from '../../components/Login/Login'
 import Signup from '../../components/Signup/Signup'
 
-const Log = ({ userIsLog, setUserIsLog }) => {
+// MUI
+import { Modal } from '@mui/material'
+
+const Log = ({ setUserIsLog, mobile }) => {
+   // UseStates
+   const [isOpen, setIsOpen] = useState(false)
+
+   // Contrôle de l'ouverture de la frame Signup
+   const openSignup = () => {
+      setIsOpen(!isOpen)
+   }
+
    // RENDER
    return (
       <>
-         <h1 className="signup__title">
-            Veuillez vous identifier avant de poursuivre !
-         </h1>
          <main className="log">
-            <Login userIsLog={userIsLog} setUserIsLog={setUserIsLog} />
-            <Signup userIsLog={userIsLog} setUserIsLog={setUserIsLog} />
+            <div className="log__container">
+               <Login
+                  setUserIsLog={setUserIsLog}
+                  mobile={mobile}
+                  openSignup={openSignup}
+               />
+               <Modal open={isOpen} onClose={openSignup}>
+                  <>
+                     <Signup setUserIsLog={setUserIsLog} mobile={mobile} />
+                  </>
+               </Modal>
+            </div>
          </main>
       </>
    )

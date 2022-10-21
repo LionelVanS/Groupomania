@@ -1,0 +1,38 @@
+.error-page {
+   width: 75%;
+   margin: auto;
+   @include frame;
+   @include center;
+   flex-direction: column;
+   align-items: center;
+
+   & h2 {
+      text-align: center;
+      font-weight: normal;
+   }
+
+   & p {
+      font-size: 2rem;
+      font-weight: bold;
+      margin: 0;
+   }
+}
+
+.mobile-error-page {
+   margin: auto;
+   @include frame-mobile;
+   @include center;
+   flex-direction: column;
+   align-items: center;
+
+   & h2 {
+      text-align: center;
+      font-weight: normal;
+   }
+
+   & p {
+      font-size: 2rem;
+      font-weight: bold;
+      margin: 0;
+   }
+}

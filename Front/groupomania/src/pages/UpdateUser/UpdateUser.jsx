@@ -1,83 +1,192 @@
-import React, { useState, useEffect } from 'react'
+// Dépendances et méthodes
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import formData from 'form-data'
-import { useNavigate } from 'react-router-dom'
 
-const UpdateUser = () => {
+// Composants
+import UploadPictureButton from '../../components/Buttons/UploadPictureButton/UploadPictureButton'
+import ImageTooHeavy from '../../components/ErrorMessage/ImageTooHeavy'
+import FormIsEmpty from '../../components/ErrorMessage/FormIsEmpty'
+
+// MUI
+import { TextField, Button } from '@mui/material'
+import { useEffect } from 'react'
+
+const UpdateUser = ({ user, mobile, setErrorFromDatabase }) => {
+   // UseNavigate
    const navigate = useNavigate()
 
    // Usestates
-   const [name, setName] = useState(' ')
-   const [surname, setSurname] = useState(' ')
-   const [picture, setPicture] = useState()
+   const [name, setName] = useState(' ') // Contient le nouveau nom de l'utilisateur
+   const [surname, setSurname] = useState(' ') // Contient le nouveau prénom de l'utilisateur
+   const [picture, setPicture] = useState() // Contient la nouvelle image de profil de l'utilisateur
+   const [pictureIsTooHeavy, setPictureIsTooHeavy] = useState() // Est ce que la photo ne dépasse pas le poids max ?
+   const [formIsEmpty, setFormIsEmpty] = useState() // Est ce que le formulaire est complet ?
+   const [userProfilIsComplet, setUserProfilIsComplet] = useState() // Est ce que le profil de l'utilisateur est complet ?
 
-   let userId = sessionStorage.getItem('user')
-   userId = userId && JSON.parse(userId)
-
-   function updateProfil(e) {
-      e.preventDefault()
-
-      const form = new formData()
-      form.append('name', name)
-      form.append('surname', surname)
-      form.append('file', picture[0])
-
-      try {
-         axios({
-            method: 'put',
-            url: 'http://localhost:3001/updateUser',
-            headers: {
-               Authorization: userId.token,
-            },
-            data: form,
-         })
-            .then((res) => console.log(res))
-            .catch((err) => console.log(err))
-         navigate('/home')
-      } catch {
-         console.log('bla')
+   useEffect(() => {
+      if ('name' in user) {
+         setUserProfilIsComplet(true)
+      } else {
+         setUserProfilIsComplet(false)
       }
+   })
+
+   // Vérification du poids des images
+   const handlePicture = e => {
+      const size = e.target.files[0].size
+      if (size > 1500000) {
+         setPictureIsTooHeavy(true)
+      } else {
+         setPicture(e.target.files)
+         setPictureIsTooHeavy(false)
+      }
+   }
+
+   // Récupérations des modifications dans les inputs
+   const createNewProfil = () => {
+      if (name && surname && picture) {
+         const form = new formData()
+         form.append('name', name)
+         form.append('surname', surname)
+         form.append('file', picture[0])
+         form.append('id', user.userId)
+         form.append('token', user.token)
+
+         updateUser(form)
+         setFormIsEmpty(false)
+      } else {
+         setFormIsEmpty(true)
+      }
+   }
+
+   // Requête PUT pour enregistrer les modifications
+   const updateUser = form => {
+      axios({
+         method: 'put',
+         url: 'http://localhost:3001/updateUser',
+         headers: {
+            Authorization: user.token
+         },
+         data: form
+      })
+         .then(res => handleStorageData(res))
+         .catch(err => setErrorFromDatabase(err.code))
+   }
+
+   // Enregistrement des modifications dans le storage
+   const handleStorageData = res => {
+      const userNewProfil = {
+         id: res.data.id,
+         name: res.data.name,
+         surname: res.data.surname,
+         picture: res.data.picture,
+         token: user.token
+      }
+      sessionStorage.clear()
+      sessionStorage.setItem('user', JSON.stringify(userNewProfil))
+      navigate('/home')
    }
 
    // RENDER
    return (
       <>
-         <main id="update-user">
-            <h1>Il ne vous reste plus qu'à compléter votre profil !</h1>
+         <main className={mobile ? 'mobile-update-user' : 'update-user'}>
+            <h1>
+               {userProfilIsComplet
+                  ? 'Vous souhaitez modifier votre profil ?'
+                  : 'Dernière étape !'}
+            </h1>
+            <form
+               className={
+                  mobile ? 'mobile-update-user__form' : 'update-user__form'
+               }
+            >
+               <p>
+                  {userProfilIsComplet
+                     ? "N'oubliez pas que vos collègues doivent pouvoir vous retrouvez !"
+                     : 'Prenez une minute pour compléter votre profil. Vous pourrez ensuite poster votre premier message !'}
+               </p>
 
-            <form className="update-user__form">
-               <label>
-                  <input
-                     type="text"
-                     id="update-user__name"
-                     className="update-user__name"
-                     placeholder="Votre nom"
-                     onChange={(e) => setName(e.target.value)}
-                  />
-               </label>
+               <div
+                  className={
+                     mobile
+                        ? 'mobile-update-user__form__input'
+                        : 'update-user__form__input'
+                  }
+               >
+                  <div
+                     className={
+                        mobile
+                           ? 'mobile-input-update-user'
+                           : 'input-update-user'
+                     }
+                  >
+                     <TextField
+                        variant="outlined"
+                        color="tertiary"
+                        label="Nom"
+                        type="text"
+                        id={
+                           mobile
+                              ? 'mobile-update-user__name'
+                              : 'update-user__name'
+                        }
+                        className={
+                           mobile
+                              ? 'mobile-update-user__name'
+                              : 'update-user__name'
+                        }
+                        onChange={e => setName(e.target.value)}
+                        required
+                     />
+                  </div>
 
-               <label>
-                  <input
-                     type="text"
-                     id="update-user__surname"
-                     className="update-user__surname"
-                     placeholder="Votre prénom"
-                     onChange={(e) => setSurname(e.target.value)}
-                  />
-               </label>
+                  <div
+                     className={
+                        mobile
+                           ? 'mobile-input-update-user'
+                           : 'input-update-user'
+                     }
+                  >
+                     <TextField
+                        variant="outlined"
+                        color="tertiary"
+                        label="Prénom"
+                        type="text"
+                        id={
+                           mobile
+                              ? 'mobile-update-user__surname'
+                              : 'update-user__surname'
+                        }
+                        className={
+                           mobile
+                              ? 'mobile-update-user__surname'
+                              : 'update-user__surname'
+                        }
+                        onChange={e => setSurname(e.target.value)}
+                        required
+                     />
+                  </div>
+               </div>
+               <UploadPictureButton
+                  pictureIsTooHeavy={pictureIsTooHeavy}
+                  handlePicture={handlePicture}
+               />
+               {/* Le formulaire n'est pas complet */}
+               {formIsEmpty ? <FormIsEmpty /> : ''}
+               {/* L'image est trop lourde */}
+               {pictureIsTooHeavy ? <ImageTooHeavy /> : ' '}
 
-               <label>
-                  <input
-                     type="file"
-                     id="update-user__profil-pic up-pic"
-                     className="update-user__profil-pic up-pic"
-                     onChange={(e) => setPicture(e.target.files)}
-                  />
-               </label>
-
-               <button className="btn" onClick={(e) => updateProfil(e)}>
+               <Button
+                  variant="contained"
+                  color="secondary"
+                  className="btn"
+                  onClick={e => createNewProfil(e)}
+               >
                   Valider
-               </button>
+               </Button>
             </form>
          </main>
       </>

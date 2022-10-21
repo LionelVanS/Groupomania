@@ -1,13 +1,25 @@
 import React from 'react'
+
+// Composant
 import PostList from '../../components/PostList/PostList'
 
-const Home = () => {
+const Home = ({ user, mobile, tablet, setErrorFromDatabase }) => {
    return (
       <>
-         <main className="main-container">
+         <main
+            className={
+               mobile || tablet ? 'main-mobile-container' : 'main-container'
+            }
+         >
             <div className="all-posts">
-               <h1>Quels sont les nouveautés chez Groupomania ?</h1>
-               <PostList />
+               <div className="main-containeur__body">
+                  <PostList
+                     user={user}
+                     mobile={mobile}
+                     tablet={tablet}
+                     setErrorFromDatabase={setErrorFromDatabase}
+                  />
+               </div>
             </div>
          </main>
       </>
