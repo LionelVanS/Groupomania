@@ -55,7 +55,7 @@ A cette étape, il ne vous restes plus qu'à configurer l'espace de travail.
 
     si vous avez choisi d'utiliser cette option.
 
-- Dans le deuxième terminal, entrez la commande:
+- Dans le deuxième terminal, celui de l'étape 2, entrez la commande:
 
     `npm start`
 
