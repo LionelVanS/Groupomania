@@ -13,11 +13,17 @@ import Button from '@mui/material/Button'
 import FormIsEmpty from '../../components/ErrorMessage/FormIsEmpty'
 import UserProfilIsEmpty from '../../components/ErrorMessage/UserProfilIsEmpty'
 
-const CreatePost = ({ user, mobile, setErrorFromDatabase }) => {
+const CreatePost = ({
+   user,
+   mobile,
+   setErrorFromDatabase,
+   userProfilIsEmpty,
+   setUserProfilIsEmpty
+}) => {
+   console.log(userProfilIsEmpty)
    // Usestates
    const [text, setText] = useState('') // Contient le texte du post
    const [picture, setPicture] = useState() // contient la photo du post
-   const [userProfilNotComplet, setUserProfilNotComplet] = useState() // Est ce que le profil de l'utilisateur est complet ?
    const [pictureIsTooHeavy, setPictureIsTooHeavy] = useState() // Est ce que la photo ne dépasse pas le poids max ?
    const [formIsEmpty, setFormIsEmpty] = useState() // Est ce que le formulare est complet ?
 
@@ -65,12 +71,12 @@ const CreatePost = ({ user, mobile, setErrorFromDatabase }) => {
             data: form
          })
             .then(() => {
-               setUserProfilNotComplet(false)
+               setUserProfilIsEmpty(false)
                navigate('/home')
             })
             .catch(err => setErrorFromDatabase(err.code))
       } else {
-         setUserProfilNotComplet(true)
+         setUserProfilIsEmpty(true)
       }
    }
 
@@ -113,7 +119,7 @@ const CreatePost = ({ user, mobile, setErrorFromDatabase }) => {
                {formIsEmpty ? <FormIsEmpty /> : ''}
                {pictureIsTooHeavy ? <ImageTooHeavy /> : ' '}
 
-               {userProfilNotComplet ? (
+               {setUserProfilIsEmpty ? (
                   <>
                      <UserProfilIsEmpty />
                      <Button

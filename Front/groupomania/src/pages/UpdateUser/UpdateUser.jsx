@@ -11,9 +11,13 @@ import FormIsEmpty from '../../components/ErrorMessage/FormIsEmpty'
 
 // MUI
 import { TextField, Button } from '@mui/material'
-import { useEffect } from 'react'
 
-const UpdateUser = ({ user, mobile, setErrorFromDatabase }) => {
+const UpdateUser = ({
+   user,
+   mobile,
+   setErrorFromDatabase,
+   userProfilIsEmpty
+}) => {
    // UseNavigate
    const navigate = useNavigate()
 
@@ -23,15 +27,6 @@ const UpdateUser = ({ user, mobile, setErrorFromDatabase }) => {
    const [picture, setPicture] = useState() // Contient la nouvelle image de profil de l'utilisateur
    const [pictureIsTooHeavy, setPictureIsTooHeavy] = useState() // Est ce que la photo ne dépasse pas le poids max ?
    const [formIsEmpty, setFormIsEmpty] = useState() // Est ce que le formulaire est complet ?
-   const [userProfilIsComplet, setUserProfilIsComplet] = useState() // Est ce que le profil de l'utilisateur est complet ?
-
-   useEffect(() => {
-      if ('name' in user) {
-         setUserProfilIsComplet(true)
-      } else {
-         setUserProfilIsComplet(false)
-      }
-   })
 
    // Vérification du poids des images
    const handlePicture = e => {
@@ -94,9 +89,9 @@ const UpdateUser = ({ user, mobile, setErrorFromDatabase }) => {
       <>
          <main className={mobile ? 'mobile-update-user' : 'update-user'}>
             <h1>
-               {userProfilIsComplet
-                  ? 'Vous souhaitez modifier votre profil ?'
-                  : 'Dernière étape !'}
+               {userProfilIsEmpty
+                  ? 'Dernière étape !'
+                  : 'Vous souhaitez modifier votre profil ?'}
             </h1>
             <form
                className={
@@ -104,9 +99,9 @@ const UpdateUser = ({ user, mobile, setErrorFromDatabase }) => {
                }
             >
                <p>
-                  {userProfilIsComplet
-                     ? "N'oubliez pas que vos collègues doivent pouvoir vous retrouvez !"
-                     : 'Prenez une minute pour compléter votre profil. Vous pourrez ensuite poster votre premier message !'}
+                  {userProfilIsEmpty
+                     ? 'Prenez une minute pour compléter votre profil. Vous pourrez ensuite consulter les posts de vos collègues et poster votre premier message !'
+                     : "N'oubliez pas que vos collègues doivent pouvoir vous retrouvez !"}
                </p>
 
                <div

@@ -22,6 +22,7 @@ const App = () => {
    // UseStates
    const [userIsLog, setUserIsLog] = useState() // Est ce qu'un utilisateur est connecté ?
    const [errorFromDatabase, setErrorFromDatabase] = useState() // Gestion d'erreur venant de la base de données
+   const [userProfilIsEmpty, setUserProfilIsEmpty] = useState() // Est ce que le profil de l'utilisateur est complet ?
 
    // Récupération des informations de l'utilisateur connecté
    let user = sessionStorage.getItem('user')
@@ -35,6 +36,19 @@ const App = () => {
          setUserIsLog(false)
       }
    }, [])
+
+   // Contrôle de la complétion du profil utilisateur
+   useEffect(() => {
+      if (userIsLog) {
+         if ('name' in user) {
+            setUserProfilIsEmpty(false)
+         } else {
+            setUserProfilIsEmpty(true)
+         }
+      } else {
+         return
+      }
+   })
 
    // Couleurs du thème
    const theme = createTheme({
@@ -50,7 +64,6 @@ const App = () => {
          }
       }
    })
-
    // Définitions des breakpoints
    // Mobile: 768px
    const mobile = useMediaQuery(
@@ -91,11 +104,10 @@ const App = () => {
                            userIsLog ? (
                               <Home
                                  user={user}
-                                 userIsLog={userIsLog}
-                                 setUserIsLog={setUserIsLog}
                                  mobile={mobile}
                                  tablet={tablet}
                                  setErrorFromDatabase={setErrorFromDatabase}
+                                 userProfilIsEmpty={userProfilIsEmpty}
                               />
                            ) : (
                               <Log
@@ -116,11 +128,10 @@ const App = () => {
                            userIsLog ? (
                               <Home
                                  user={user}
-                                 userIsLog={userIsLog}
-                                 setUserIsLog={setUserIsLog}
                                  mobile={mobile}
                                  tablet={tablet}
                                  setErrorFromDatabase={setErrorFromDatabase}
+                                 userProfilIsEmpty={userProfilIsEmpty}
                               />
                            ) : (
                               <Error403 mobile={mobile} />
@@ -137,6 +148,8 @@ const App = () => {
                                  user={user}
                                  mobile={mobile}
                                  setErrorFromDatabase={setErrorFromDatabase}
+                                 userProfilIsEmpty={userProfilIsEmpty}
+                                 setUserProfilIsEmpty={setUserProfilIsEmpty}
                               />
                            ) : (
                               <Error403 mobile={mobile} />
@@ -154,6 +167,8 @@ const App = () => {
                                  mobile={mobile}
                                  tablet={tablet}
                                  setErrorFromDatabase={setErrorFromDatabase}
+                                 userProfilIsEmpty={userProfilIsEmpty}
+                                 setUserProfilIsEmpty={setUserProfilIsEmpty}
                               />
                            ) : (
                               <Error403 mobile={mobile} />
