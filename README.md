@@ -45,7 +45,7 @@ A cette étape, il ne vous restes plus qu'à configurer l'espace de travail.
 
     Les variables devant s'y trouver vous ont été transmises par mail.
 
-- Pour terminer, entrez la commande:
+- Toujours dans le dossier back, entrez la commande:
 
     `node server`  
 
@@ -55,14 +55,19 @@ A cette étape, il ne vous restes plus qu'à configurer l'espace de travail.
 
     si vous avez choisi d'utiliser cette option.
 
-    Votre navigateur par défaut va s'ouvrir et l'application tournera en local sur votre machine.
+- Dans le deuxième terminal, entrez la commande:
 
-    Le front s'executera sur le port 3000 
+    `npm start`
 
-    Le serveur tournera sur le port 3001
+
+Votre navigateur par défaut va s'ouvrir et l'application tournera en local sur votre machine.
+
+Le front s'executera sur le port 3000 
+
+Le serveur tournera sur le port 3001
 
 ***
-## 4 - Dépendances et technologies
+## 4 - Dépendances et technologies utilisés
 ***
 ### 4.1 - Côté Back-End
 ***
