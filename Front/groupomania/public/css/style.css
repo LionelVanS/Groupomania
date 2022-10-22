@@ -381,9 +381,6 @@ textarea {
   left: 50%;
   transform: translate(-50%, -50%);
   flex-direction: column;
-  background: white;
-  border: 0.1rem solid #ffd7d7;
-  border-radius: 10px;
 }
 .mobile-login__form {
   width: 100%;
