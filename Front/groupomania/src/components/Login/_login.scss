@@ -30,9 +30,6 @@
    @include frame-mobile;
    @include center;
    flex-direction: column;
-   background: white;
-   border: 0.1rem solid $color-secondary;
-   border-radius: 10px;
    &__form {
       width: 100%;
       display: flex;
