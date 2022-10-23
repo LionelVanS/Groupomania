@@ -20,7 +20,6 @@ const CreatePost = ({
    userProfilIsEmpty,
    setUserProfilIsEmpty
 }) => {
-   console.log(userProfilIsEmpty)
    // Usestates
    const [text, setText] = useState('') // Contient le texte du post
    const [picture, setPicture] = useState() // contient la photo du post
@@ -119,7 +118,7 @@ const CreatePost = ({
                {formIsEmpty ? <FormIsEmpty /> : ''}
                {pictureIsTooHeavy ? <ImageTooHeavy /> : ' '}
 
-               {setUserProfilIsEmpty ? (
+               {userProfilIsEmpty ? (
                   <>
                      <UserProfilIsEmpty />
                      <Button
