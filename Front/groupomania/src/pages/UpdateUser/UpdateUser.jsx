@@ -1,6 +1,5 @@
 // Dépendances et méthodes
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import formData from 'form-data'
 
@@ -18,9 +17,6 @@ const UpdateUser = ({
    setErrorFromDatabase,
    userProfilIsEmpty
 }) => {
-   // UseNavigate
-   const navigate = useNavigate()
-
    // Usestates
    const [name, setName] = useState(' ') // Contient le nouveau nom de l'utilisateur
    const [surname, setSurname] = useState(' ') // Contient le nouveau prénom de l'utilisateur
@@ -81,7 +77,7 @@ const UpdateUser = ({
       }
       sessionStorage.clear()
       sessionStorage.setItem('user', JSON.stringify(userNewProfil))
-      navigate('/home')
+      window.location.reload()
    }
 
    // RENDER
