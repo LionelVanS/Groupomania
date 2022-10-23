@@ -1,5 +1,5 @@
 // Modifie le style des cadres principaux de chaque page
-@mixin frame($padding: 1rem, $height: 600px) {
+@mixin frame($padding: 1rem, $height: 550px) {
    width: 50%;
    height: $height;
    display: flex;
