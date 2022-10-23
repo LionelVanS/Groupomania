@@ -80,7 +80,7 @@ textarea {
   left: 50%;
   transform: translate(-50%, -50%);
   width: 50%;
-  height: 600px;
+  height: 550px;
   display: flex;
   justify-content: center;
   padding: 1rem;
@@ -151,7 +151,7 @@ textarea {
   left: 50%;
   transform: translate(-50%, -50%);
   width: 50%;
-  height: 600px;
+  height: 550px;
   display: flex;
   justify-content: center;
   padding: 1rem;
@@ -232,7 +232,7 @@ textarea {
   width: 75%;
   margin: auto;
   width: 50%;
-  height: 600px;
+  height: 550px;
   display: flex;
   justify-content: center;
   padding: 1rem;
@@ -333,7 +333,7 @@ textarea {
 
 .login {
   width: 50%;
-  height: 600px;
+  height: 550px;
   display: flex;
   justify-content: center;
   padding: 1rem;
@@ -411,7 +411,7 @@ textarea {
   left: 50%;
   transform: translate(-50%, -50%);
   width: 50%;
-  height: 600px;
+  height: 550px;
   display: flex;
   justify-content: center;
   padding: 1rem;
