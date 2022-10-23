@@ -18,7 +18,7 @@ const Header = ({ userIsLog, setUserIsLog, user, mobile, tablet }) => {
             setProfilIsComplet(false)
          }
       } else {
-         return
+         setProfilIsComplet(false)
       }
    }, [])
 
