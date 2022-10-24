@@ -115,6 +115,7 @@ const CreatePost = ({
                      handlePicture={handlePicture}
                   />
                </div>
+               {/* Cas d'erreurs */}
                {formIsEmpty ? <FormIsEmpty /> : ''}
                {pictureIsTooHeavy ? <ImageTooHeavy /> : ' '}
 
