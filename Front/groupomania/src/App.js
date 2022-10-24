@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import json2mq from 'json2mq'
-import useMediaQuery from '@mui/material/useMediaQuery'
 
 // MUI
 import { ThemeProvider, createTheme } from '@mui/material/styles'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
 //Pages
 import Home from './pages/Home/Home'
 import Log from './pages/Log/Log'
 import CreatePost from './pages/CreatePost/CreatePost'
 import UpdateUser from './pages/UpdateUser/UpdateUser'
+
+// Pages d'erreurs
 import Error403 from './pages/ErrorPages/Error403/Error403'
 import Error404 from './pages/ErrorPages/Error404/Error404'
 import Error504 from './pages/ErrorPages/Error504/Error504'
