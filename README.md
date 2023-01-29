@@ -7,6 +7,9 @@ Afin de bien commencer, cloner le repository.
 Pour faire fonctionner le serveur, vous aurez besoin d'installer node.js sur votre machine. Vous le trouverez [sur le site](https://nodejs.org/en/) officiel.
 
 Pour plus de confort, je recommande l'installation de [nodemon](https://www.npmjs.com/package/nodemon) afin de surveiller les modifications.
+
+Vous aurez également besoin d'une base de donnée [MongoDB Atlas](https://www.mongodb.com/atlas/database).
+
 ## 1 - Installation du Back-End
 ***
 Dans un terminal, dans le dépôt tout juste cloné,  tapez la commande suivante:
@@ -43,7 +46,13 @@ A cette étape, il ne vous restes plus qu'à configurer l'espace de travail.
 
     `touch .env`
 
-    Les variables devant s'y trouver vous ont été transmises par mail.
+    Les variables devant se remplissent comme ceci:
+    
+DB_USER = Doit contenir le nom d'utilisateur de votre base de donnée   
+DB_PASSWORD = Doit contenir le mot de passe de votre base de donnée  
+DB_HOST = Doit contenir l'hôte de votre base de données au format "votrehôte.mongodb.net"  
+BC_SALTROUNDS = Doit contenir le nombre d'itérations pour le salage du mot de passe.  
+JWT_SECRETKEY = Doit contenir le mot de passe secret permettant de générer les tokens  
 
 - Toujours dans le dossier back, entrez la commande:
 
